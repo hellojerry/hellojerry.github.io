@@ -1,8 +1,220 @@
----
-layout: default
-title: Mike Perrigue
----
-<div class="blurb">
-	<h1>Hi there, I'm Mike Perrigue!</h1>
-	<p>I'm a self-taught programmer. I have a couple of projects using python, django, and angularJS. <a href="/about">Read more about my life...</a></p>
-</div><!-- /.blurb -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- switch this -->
+        <title>Mike Perrigue</title>
+        
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+			<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'/>
+			<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+
+    </head>
+    <body>
+			<div class='container-fluid'>
+<!--			-->
+            
+                <div class='row' style='background-image: url("http://i.imgur.com/mpyGcvC.jpg");
+            background-size: cover; height: 600px; background-position: center; background-repeat: no-repeat'>
+                    <div class='col-md-12 col-offset-2'>
+                    <h1 class='text-center' style='margin-top: 50%; color: white'>Mike Perrigue</h1>
+                    <p></p></div>
+                    </div>
+
+			<div class="container">
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+                    <h2 class='text-center'>Profile</h2>
+                    <p class='lead text-center'>I'm a creative software developer looking to start my career.</p>
+                
+			<div class='col-sm-4'>
+                <h3>About Me</h3>
+                <p class='text-justify'>I'm a self-taught web developer. I got started in programming
+                about a year ago. Most of my work has been focused on back-end development, but
+                I enjoy deployment and front-end development as well.</p>
+            </div>
+            <div class='col-sm-4'>
+                <div class='text-center avatar-wrapper' style='visibility: visible'>
+                    <img src=''>
+                </div>
+            </div>
+			<div class='col-sm-4'>
+                <h3>General Information: </h3>
+                <p><b>Full name:</b>
+                <br>
+                <span itemprop='name'>Michael Perrigue</span></p>
+                <p><b>Age:</b>
+                <br>
+                26</p>
+                <p><b>Location:</b>
+                <br>
+                Los Angeles</p>
+            </div>
+			</div>
+                </div>
+                
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+                    <h2 class='text-center'>Skills</h2>
+                    <p class='lead text-center'>I've built my projects with Python and Django, and used a few other things
+                    along the way.</p>
+                    <div class='row'>
+                        <div class='col-sm-3'>
+                    <h3>Languages</h3>
+                    <ul>
+                        <li>Python</li>
+                        <li>Javascript</li>
+                        <li>SQL</li>
+                        <li>a bit of bash...</li>
+                    </ul>
+                    </div>
+                        <div class='col-sm-3'>
+                            <h3>Frameworks</h3>
+                            <ul>
+                                <li>Django</li>
+                                <li>AngularJS</li>
+                                <li>a bit of Flask...</li>
+                            </ul>
+                            
+                        </div>
+                        <div class='col-sm-3'>
+                            <h3>Tools</h3>
+                            <ul>
+                                <li>Git</li>
+                                <li>NGINX</li>
+                                <li>AWS</li>
+                                <li>Celery/Redis</li>
+                            </ul>
+                            
+                        </div>
+                        <div class='col-sm-3'>
+                            <h3>Libraries/Other</h3>
+                            <ul>
+                                <li>PostgreSQL</li>
+                                <li>jQuery</li>
+                                <li>HTML</li>
+                                <li>CSS</li>
+                                <li>XML</li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+                    <h2 class='text-center'>Projects</h2>
+                    <p class='lead text-center'>My work experience isn't related, so here are my two main projects.</p>
+                    <div class='row'>
+                        <h3 class='text-center'>Accountabillibuddy</h3>
+                        <div class='col-sm-5'>
+                        <ul>
+                            <li>
+                                Backend
+                                <ul>
+                                    <li>Django, Django REST Framework</li>
+                                    <li>Celery with Redis as a broker</li>
+                                    <li>NGINX (hosted on an EC2 instance)</li>
+                                    <li>PostgreSQL</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                Frontend
+                                <ul>
+                                    <li>Angular JS</li>
+                                    <li>HTML</li>
+                                    <li>CSS</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        </div>
+                        <div class='col-sm-7'>
+                            <p>Here's a <a href='http://mjperrigue.com'>link!</a>
+                            This project is an anti-procrastination tool. You make a schedule
+                            on the main page for events you'd like to do in advance, like going to the doctor.
+                            If you miss your checkin time, the app calls you via the Twilio API! The trick
+                            is that you can't change an event within 24 hours of it being due, so once you've
+                            committed to something, you need to stick to it. This project is built with Angular JS
+                            consuming an API I made in Django. It tracks your successes and failures. If you'd like
+                            you can sign up to have the app's Twitter account periodically tweet you as well.
+                            <a href='https://github.com/hellojerry/buddy'>github here.</a></p>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <div class='row'>
+                        <h3 class='text-center'>Django Simple Forum</h3>
+                        <div class='col-sm-5'>
+                        <ul>
+                            <li>
+                                Backend
+                                <ul>
+                                    <li>Django</li>
+                                    <li>Hosted on Heroku</li>
+                                    <li>Sqlite with AWS S3 Storage</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                Frontend
+                                <ul>
+                                    <li>jQuery</li>
+                                    <li>HTML</li>
+                                    <li>CSS</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        </div>
+                        <div class='col-sm-7'>
+                            <p>Here's a <a href='/'>link!</a>
+                            This is ... a procrastination tool. This is a better-designed
+                            iteration of my very first web project. It's an old-school web forum
+                            with some jQuery tricks, a search feature, and user profiles that
+                            can be modified with CSS uploads a la Myspace, among other things. The various message boards
+                            inside can also have their CSS modified via an administrator upload.
+                            <a href='https://github.com/hellojerry/django-simple-forum'>github here.</a></p>
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1 content'>
+                        <h2 class='text-center'>Education</h2>
+                        <h4>University of Washington - Seattle</h4>
+                        <p>Bachelor's Degree in Business Administration - Accounting</p><i>January 2008 - April 2012</i>
+                        </div>
+                        
+                    </div>
+                    <div class='row'>
+                        <div class='col-md-10 col-md-offset-1 content'>
+                        <h2  class='text-center'>Work Experience</h2>
+                        <h4>Transguard Insurance Company - Pasadena, CA</h4>
+                        <p>Underwriting Assistant</p>
+                        <i>October 2013 - May 2015</i>
+                        <br/>
+                        <h4>Bedrooms and More - Seattle, WA</h4>
+                        <p>Weekend Warehouse Manager</p>
+                        <i>September 2010 - June 2012</i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+			</div><!-- /.container -->
+			<footer style='margin-bottom: 0px; position: static; padding: 0px'>
+
+	    		<ul class='nav navbar-nav'>
+	        		<li><a href="mailto:mjperrigue@gmail.com">Email</a></li>
+		        	<li><a href="https://github.com/hellojerry">GitHub</a></li>
+	        		<li><a href="">Linkedin</a></li>
+
+			</footer>
+			</div>         
+    </body>
+
+</html>
