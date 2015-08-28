@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Accountabillibuddy</title>
+        
+
+			<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'/>
+			<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+
+    </head>
+    <body>
+			<div class='container'>
+<!--			-->
+            
+
+
+			<div class="container">
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+                    <h1 class='text-center'>Accountabillibuddy Design Decisions</h1>
+                    <p class='lead text-center'>First, it starts with an idea.</p>
+                <div class='col-sm-12'>
+            <h4 class='text-center'><u>Inspiration</u></h4>
+            <p>Back in college I took a Philosophy 101 course to fulfill a requirement, thinking that it
+            would be useless. It wasn't at all! One of the assigned materials was a piece called <i>Nicomachean Ethics</i>
+            by Aristotle. Aristotle has a way of repeating himself, so I'll keep the description as brief as possible.
+            <i>Nicomachean Ethics</i> was intended as life advice for Aristotle's son, Nichomachus. It advances a very
+            simple thesis for how to be successful (or achieve <i>Eudaimonia</i>) in life: get into the habit of
+            doing the right thing. This ranges from being moral in our sense, to simply sticking to good habits like
+            eating properly and exercising regularly.</p>
+            <p>Unfortunately, it can be hard to stick to habits, and it's even harder to get into habits. I've found
+            it takes three weeks or so before a behavior becomes a habit. Accountabillibuddy is designed to help with that.
+            For me, it's about getting into a workout routine.</p>
+            <p>I, like many people, have a habit of procrastinating. Something like exercise isn't required to pay the
+            bills, and so it falls by the wayside more easily, than, say, showing up to work. One way to get out of
+            procrastinating is to disincentivize it - make something bad happen to you if you procrastinate.</p>
+            <p>For me, the most annoying things in life are robotic phone calls and telemarketers. They drive me up the wall.
+            Why not make a robot call me when I miss my workout? I'd do anything to avoid that!</p>
+            </div>
+			</div>
+                </div>
+                
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+
+                <div class='col-sm-12'>
+            <h4 class='text-center'><u>User Interface</u></h4>
+            <p>After finishing my first two projects, the <a href='https://github.com/hellojerry/django-simple-forum'>message board</a> and the <a href='https://github.com/hellojerry/pizzatime'>ecommerce app</a>,
+            I felt dissatisfied with a simple jQuery/HTML/CSS setup. For a message board, you can get away with being light
+            on the AJAX and animations - after all, people use message boards for the text in them, not their ease of use.
+            The ecommerce app was a different story. I decided not to deploy it after spending a few months of work on it,
+            because I hadn't come close to what I was looking for - a seamless, fast-moving interface that grabbed
+            information in real-time. JQuery can be bent toward that end, but it doesn't necessarily encourage good development practices.
+            I certainly got away with a lot of messy stuff in my ecommerce app. I wanted a site that had no page refreshes. </p>
+            <p>After speaking to a friend about cool interface systems, I found AngularJS. It's very powerful, and is packed with useful
+            tools for handling animations and instant AJAX processing. I'd heard about the Django REST framework via hackernews,
+            and building a RESTful API seemed like a good way to learn more about web development in general. Why not put the two together?</p>
+            <p>In retrospect, AngularJS was a great choice. It's not just the elimination of page refreshes - it's the little things
+            that users dont notice at first. Things like the built in form validation, and the ability to make custom elements with directives
+            to define behavior. With a few lines of code in a directive, for example, <a href='https://github.com/hellojerry/buddy/blob/master/static/app/js/static/directives/numberonly.directive.js'>
+            I can prevent users from entering anything except numbers into a form.</a>
+            <p>Angular can be frustrating - the error handling is cryptic most days. That being said, it's a great tool.</p>
+            </div>
+			</div>
+                </div>
+
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+
+                <div class='col-sm-12'>
+            <h4 class='text-center'><u>Architecture</u></h4>
+            <p><b>Requirements:</b>This project had two unique requirements for me - it needed to serve an API, and it needed
+            to handle multiple processes that weren't directly related to handling requests (timed jobs, in particular). For the server
+            framework, knowing python as a server side language, my options were what I knew: Django, and to a lesser extent,
+            Flask. It wasn't a hard decision between the two: Django's "batteries-included" philosophy meant that I had
+            a lot of security issues, like CSRF validation, handled at the outset without a need to pick and choose external modules.
+            Building an API, using a front-end framework, and handling backend processes were enough to learn. The Django REST framework
+            in particular simplifies building JSON APIs and has excellent documentation. For more fine-grained control, I'd have gone with Flask.</p>
+            <p><b>Asynchronous Processes:</b>This project's bedrock is timed jobs. In order to keep track of all users' plans and "enforce" them,
+            the server needs timed processes. If I allow users to schedule tasks in 30 minute increments, I'll need a cron job to run every 30 minutes
+            to make the API call. If this were an irregular task, like a daily database backup, a management command would make more sense,
+            and would require less setup. The API calls for Twilio are not particularly time-intensive for a small userbase - my experience has been that they take
+            one second or so to handle, but spread across, say, even 500 users it could be a little intense. Combine that with having to handle regular
+            request and response handling, and you have a scaling problem. This is where <a href='https://celery.readthedocs.org/en/latest/'>Celery</a> and Redis came into play. Celery
+            lets you accomplish asynchronous tasks - it takes the responsibility away from the server itself to handle timed jobs and other tasks
+            that don't involve request processing.</p><p> With Celery, I was able to set up task checking at regular intervals, and handle very slow API calls.
+            For example, Django's built in mail handler allows easy access to the Gmail API. I use a gmail account to handle confirmation emails, as well as reminder emails.
+            From my computer, it can take up to 3-5 seconds to send a canned email through the API. If I processed that while handling a request,
+            a user with no latency could have to wait 3-5 seconds for their request to get handled. That's unacceptable! With Celery, the data is passed to Redis, and then
+            executed separately from the rest of the request - the user doesn't need to wait any longer. </p>
+            <p>A note on using Redis: Celery has excellent support for two brokers: RabbitMQ and Redis. I chose Redis because it is
+            lightweight, easy to install, and processes requests faster than RabbitMQ. However, it can lose information about tasks and isn't
+            nearly as reliable as RabbitMQ. In this case, the broker is not holding any sensitive data - I'm not dealing with financial transactions.
+            If the data was critical to the execution of the app, or my business, I'd likely go with RabbitMQ.</p>
+            </div>
+			</div>
+                </div>
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+
+                <div class='col-sm-12'>
+            <h4 class='text-center'><u>Hosting and Servers</u></h4>
+            <p><b>Requirements: </b>For many portfolio projects, like my <a href='https://djangoforums.herokuapp.com/'>message board</a>, hosting
+            on Heroku is simple and easy - it handles a lot of server configuration automatically.
+            I wanted a bit more control over the server side processes, and wanted to
+            learn more about configuring things from (mostly) scratch. Amazon Web Services still handles a lot of the work,
+            but it requires more hands-on configuration at the command line. I decided upon an EC2 Micro instance, using
+            PostgreSQL as a database via their RDS service and serving Redis from their Elasticache service.</p>
+            <p><i>PostgreSQL:</i> The choice of database wasn't particularly critical on this project. I chose postgres
+            because I am familiar with it, and because django provides unique <a href='https://docs.djangoproject.com/en/1.8/ref/contrib/postgres/'>features for Postgres.</a>
+            As of yet I haven't needed to use said features, but it never hurts to have extra tools available.</p>
+            <p><i>NGINX and Gunicorn:</i> As a relative newbie to server administration, I chose the options with the most
+             available resources for an inexperienced user. NGINX was quite easy to use - for my purposes it only required
+            writing a few lines in a couple of files inside the /etc/nginx/ directory.</p>
+            <p><i>Ubuntu: </i>AWS has a free tier of service in Ubuntu, and Ubuntu is incredibly simple and easy to use. Seeing
+            as how I do all of my development in Ubuntu, it seemed like a natural choice.</p>
+            </div>
+			</div>
+                </div>
+
+			</div><!-- /.container -->
+			<footer style='margin-bottom: 0px; position: static; padding: 0px'>
+
+	    		<ul class='nav navbar-nav'>
+	        		<li><a href="mailto:mjperrigue@gmail.com">Email</a></li>
+		        	<li><a href="https://github.com/hellojerry">GitHub</a></li>
+	        		<li><a href="/">Linkedin</a></li>
+                </ul>
+			</footer>
+			</div>         
+    </body>
+
+</html>
