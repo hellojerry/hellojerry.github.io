@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <title>Accountabillibuddy</title>
+        
+
+			<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'/>
+			<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+
+    </head>
+    <body>
+			<div class='container'>
+<!--			-->
+            
+
+
+			<div class="container">
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+                    <h1 class='text-center'>Django Simple Forum Design Decisions</h1>
+                    <p class='lead text-center'>A rehash of my first project.</p>
+                <div class='col-sm-12'>
+            <h4 class='text-center'><u>Inspiration</u></h4>
+            <p>After reading <a href='http://learnpythonthehardway.org/'>Learn Python the Hard Way</a>,
+            I figured it was time to get my feet wet and build a web app. A friend recommended Django for its ease of use and popularity. I dove
+            into the documentation and cobbled together a webforum that was an outright mess. Not understanding
+            85% of what I was doing, I charged ahead until I completed it. The code was confusing, I completely
+             violated the DRY principle and had no concept of basic unit testing. A few months later, after
+            building another <a href='https://github.com/hellojerry/pizzatime'>app</a> that was more complex
+            and a tiny bit better, I figured it was time to improve my development practices.
+            I kept on running into a problem where altering one function or class would break something elsewhere.
+            I spent a lot of time digging around, finding errors, making spot fixes, and then coming
+            back to the same problem two days later. I asked another friend how I should fix this, and
+            he told me to start testing my code.</p>
+            <p>After finishing the ecommerce app, I read about unit testing, did a few tutorials, and figured that
+             I'd redo my first project - the webforum - into something robust,
+             that had a clean user interface and didn't break. </p>
+            <p>I had picked up a bit of jQuery and figured that instead of making a site based around javascript tricks,
+             I'd use javascript to enhance the user experience a little bit, but keep the site primarily static.</p>
+            </div>
+			</div>
+                </div>
+                <div class='row'>
+                <div class='col-md-10 col-md-offset-1 content'>
+            <h4 class='text-center'><u>User Interface</u></h4>
+            <div class='col-sm-12'>
+            <p>This project had fairly simple UI requirements - it needed to be a basic webforum, with an index
+             of user profiles. Nothing too crazy - message boards typically are light on AJAX and Javascript due
+            to their user requirements. Given that I was only planning on simple helper interactions, and a small
+            amount of AJAX GET requests, jQuery fit the bill. I used Twitter Bootstrap as a CSS framework - it's
+            fairly intuitive and easy to customize. </p>
+            </div>
+			</div>
+            </div>
+            <div class='row'>
+            <div class='col-md-10 col-md-offset-1 content'>
+            <h4 class='text-center'><u>Backend</u></h4>
+            <div class='col-sm-12'>
+            <p>As I was building a static site to return html pages, plain Django was all I needed. My focus
+            on this project was primarily building something with properly tested code. There are still some
+            untested components - one app, the direct messages app, had nearly trivial CRUD operations, and
+            testing didn't seem necessary.</p>
+            <p>For hosting, I chose a simple heroku host with AWS S3 storage. Heroku is easy to use, and
+            for my skill level at the time it was about all I could handle. If the app had more complex
+            requirements than a simple CRUD interface, I'd likely have gone with an AWS EC2 instance.</p>
+            </div>
+			</div>
+            </div>
+            <div class='row'>
+            <div class='col-md-10 col-md-offset-1 content'>
+            <h4 class='text-center'><u>In Retrospect</u></h4>
+            <div class='col-sm-12'>
+            <p><b>Good: </b>The tests. The tests were a gigantic timesaver - they prevented regression
+            when I added new features and functionalities. It's nice to feel comfortable with your code.</p>
+            <p><b>Changes to make: </b>The site, in its current stack, isn't built to scale well. I built
+            some methods for the User and Forum models that were analytical in nature - things like "favorite
+            thread" or "most popular thread in forum." Every time a user accessed a page that displayed that data,
+            the method was run again. For a small amount of users, that's not a big deal. If I had reddit's userbase,
+            things might start to run slowly. I could optimize these functions in a few ways - I could run them with
+            Cython, I could write raw SQL queries instead of using the ORM - but they'd still be running every time.
+            It might be better to offload some of these potentially time consuming functions to something like Celery, periodically
+            run them with a broker, and store them as fields in their respective database records. A slimmer solution
+             than Celery would be to run cron jobs periodically when request volume is low. After all, it is not critically important
+            that a user gets perfectly up-to-date information on who talks the most or what topic is the most popular.</p>
+            <p><b>Lessons Learned: </b>
+                <ol>
+                    <li>Testing is critical! It makes life easier! Do it!</li>
+                    <li>The importance of version control. It makes life easier too! Especially when
+                    you need a deployment version of an app and a display version of an app.</li>
+                    <li>The importance of security. I didn't touch on this earlier, but at one point
+                    I published an AWS key onto github. Guess who got a phone call at 2 am telling him
+                    he had 200 instances running in Eastern Europe! Guess who uses environment variables now!</li>
+                </ol></p>
+            </div>
+			</div>
+            </div>
+
+			</div><!-- /.container -->
+			<footer style='margin-bottom: 0px; position: static; padding: 0px'>
+
+	    		<ul class='nav navbar-nav'>
+	        		<li><a href="mailto:mjperrigue@gmail.com">Email</a></li>
+		        	<li><a href="https://github.com/hellojerry">GitHub</a></li>
+	        		<li><a href="https://www.linkedin.com/pub/michael-perrigue/6a/747/5b6">LinkedIn</a></li>
+	        		<li><a href='/'>Home</a><li>
+                </ul>
+			</footer>
+			</div>         
+    </body>
+
+</html>
